@@ -33,11 +33,14 @@ def add_ip_to_list(ip):
 @app.route('/liberar', methods=['POST'])
 def liberar():
     data = request.get_json()
+    print("DEBUG - Dados recebidos:", data)
     ip = data.get('ip')
     if not ip:
         return jsonify({'message': 'IP não informado'}), 400
 
     success, message = add_ip_to_list(ip)
+    print("DEBUG - Resultado:", success, message)
+
     if success:
         return jsonify({'message': message})
     else:
