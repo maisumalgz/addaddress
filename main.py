@@ -2,6 +2,7 @@ from flask_cors import Flask, request, jsonify
 import routeros_api
 
 app = Flask(__name__)
+CORS(app, origins=["https://addaddresslist.netlify.app"])
 
 # Configurações do MikroTik
 MK_HOST = 'd4500ecb7a52.sn.mynetname.net'
