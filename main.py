@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask_cors import Flask, request, jsonify
 import routeros_api
 
 app = Flask(__name__)
