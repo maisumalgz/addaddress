@@ -31,6 +31,7 @@ def add_ip_to_list(ip):
             'address': ip,
             'list': 'Liberados',
             'comment': 'Adicionado via web'
+            'timeout': '1h'
         })
 
         print("IP adicionado com sucesso.")
