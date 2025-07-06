@@ -46,6 +46,37 @@ def add_ip_to_list(ip):
             connection.disconnect()
         except:
             pass
+        
+@app.route('/verificar', methods=['POST'])
+def verificar():
+    data = request.get_json()
+    ip = data.get('ip')
+    if not ip:
+        return jsonify({'liberado': False, 'message': 'IP não informado'}), 400
+
+    try:
+        connection = routeros_api.RouterOsApiPool(
+            MK_HOST, username=MK_USER, password=MK_PASS, port=MK_PORT, plaintext_login=True
+        )
+        api = connection.get_api()
+        address_list = api.get_resource('/ip/firewall/address-list')
+        existing = address_list.get()
+
+        for entry in existing:
+            if entry['address'] == ip and entry['list'].lower() == 'liberados':
+                return jsonify({'liberado': True, 'message': 'IP já está liberado'}), 200
+
+        return jsonify({'liberado': False, 'message': 'IP não está liberado'}), 200
+
+    except Exception as e:
+        print("Erro ao verificar IP:", e)
+        return jsonify({'liberado': False, 'message': 'Erro ao conectar ao MikroTik'}), 500
+
+    finally:
+        try:
+            connection.disconnect()
+        except:
+            pass
 
 @app.route('/')
 def index():
