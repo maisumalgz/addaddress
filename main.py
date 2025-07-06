@@ -11,11 +11,11 @@ MK_PASS = 'In3t@2018'
 MK_PORT = 8728  # Porta API padrão (pode mudar)
 
 def add_ip_to_list(ip):
-    connection = routeros_api.RouterOsApiPool(
-        MK_HOST, username=MK_USER, password=MK_PASS, port=MK_PORT, plaintext_login=True
-    )
-    api = connection.get_api()
     try:
+        connection = routeros_api.RouterOsApiPool(
+            MK_HOST, username=MK_USER, password=MK_PASS, port=MK_PORT, plaintext_login=True
+        )
+        api = connection.get_api()
         address_list = api.get_resource('/ip/firewall/address-list')
         existing = address_list.get()
 
@@ -23,10 +23,20 @@ def add_ip_to_list(ip):
             if entry['address'] == ip and entry['list'] == 'liberados':
                 return False, "IP já está na lista."
 
-        address_list.add(address=ip, list='liberados', comment='Adicionado via web')
+        address_list.add({
+            'address': ip,
+            'list': 'liberados',
+            'comment': 'Adicionado via web'
+        })
         return True, "IP adicionado com sucesso."
+    except Exception as e:
+        print("Erro ao adicionar IP:", e)
+        return False, "Erro ao se conectar ao MikroTik."
     finally:
-        connection.disconnect()
+        try:
+            connection.disconnect()
+        except:
+            pass
 
 
 
