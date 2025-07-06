@@ -27,11 +27,12 @@ def add_ip_to_list(ip):
                 print("IP já está na lista.")
                 return False, "IP já está na lista."
 
-        address_list.add({
-            'address': ip,
-            'list': 'Liberados',
-            'comment': 'Adicionado via web'
-        })
+         address_list.add(
+             address=ip,
+             list='liberados',
+             comment='Adicionado via web'
+            )
+
 
         print("IP adicionado com sucesso.")
         return True, "IP adicionado com sucesso."
