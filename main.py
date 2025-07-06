@@ -1,15 +1,16 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS  # << importar isso
 import routeros_api
+import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # << ESSENCIAL: Ativar o CORS logo após o app
 
-# Configurações do MikroTik
+# Config MikroTik
 MK_HOST = 'd4500ecb7a52.sn.mynetname.net'
 MK_USER = 'admin'
 MK_PASS = 'In3t@2018'
-MK_PORT = 8728  # Porta API
+MK_PORT = 8728
 
 def add_ip_to_list(ip):
     try:
