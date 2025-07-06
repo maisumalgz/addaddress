@@ -23,16 +23,15 @@ def add_ip_to_list(ip):
         existing = address_list.get()
 
         for entry in existing:
-            if entry['address'] == ip and entry['list'] == 'Liberados':
+            if entry['address'] == ip and entry['list'] == 'liberados':
                 print("IP já está na lista.")
                 return False, "IP já está na lista."
 
-address_list.add(**{
-    'address': ip,
-    'list': 'liberados',
-    'comment': 'Adicionado via web'
-})
-
+        address_list.add(**{
+            'address': ip,
+            'list': 'Liberados',
+            'comment': 'Adicionado via web'
+        })
 
         print("IP adicionado com sucesso.")
         return True, "IP adicionado com sucesso."
