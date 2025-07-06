@@ -64,7 +64,12 @@ def verificar():
 
         for entry in existing:
             if entry['address'] == ip and entry['list'].lower() == 'liberados':
-                return jsonify({'liberado': True, 'message': 'IP já está liberado'}), 200
+                timeout = entry.get('timeout', 'indefinido')
+                return jsonify({
+                    'liberado': True,
+                    'message': 'IP já está liberado',
+                    'timeout': timeout
+                }), 200
 
         return jsonify({'liberado': False, 'message': 'IP não está liberado'}), 200
 
