@@ -7,9 +7,9 @@ app = Flask(__name__)
 CORS(app)  # << ESSENCIAL: Ativar o CORS logo após o app
 
 # Config MikroTik
-MK_HOST = 'd4500ecb7a52.sn.mynetname.net'
-MK_USER = 'admin'
-MK_PASS = 'In3t@2018'
+MK_HOST = os.environ.get('MK_HOST')
+MK_USER = os.environ.get('MK_USER')
+MK_PASS = os.environ.get('MK_PASS')
 MK_PORT = 8728
 
 def add_ip_to_list(ip):
