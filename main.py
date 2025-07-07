@@ -1,16 +1,18 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # << importar isso
+from flask_cors import CORS
 import routeros_api
 import os
 
 app = Flask(__name__)
-CORS(app)  # << ESSENCIAL: Ativar o CORS logo após o app
+CORS(app)
 
-# Config MikroTik
+# Configs Render
 MK_HOST = os.environ.get('MK_HOST')
 MK_USER = os.environ.get('MK_USER')
 MK_PASS = os.environ.get('MK_PASS')
 MK_PORT = 8728
+APP_USER = os.environ.get("APP_USER")
+APP_PASS = os.environ.get("APP_PASS")
 
 def add_ip_to_list(ip):
     try:
@@ -103,6 +105,17 @@ def liberar():
         return jsonify({'message': message})
     else:
         return jsonify({'message': message}), 409
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if username == APP_USER and password == APP_PASS:
+        return jsonify({"success": True}), 200
+    else:
+        return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
 
 import os
 if __name__ == '__main__':
